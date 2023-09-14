@@ -1,10 +1,13 @@
 def get_address_net(ip: str, mask: str) -> str:
     list_mask = list(map(int, mask.split(".")))
-    list_ip = ip.split(".")
-    first_num = bin(int(list_ip[2]))[:-1] + bin(list_mask[2])[-1]
-    second_num = list_mask[-1]
-    address = f"{list_ip[0]}.{list_ip[1]}.{eval(first_num)}.{second_num}\n"
+    list_ip = list(map(int, ip.split(".")))
+    address = ".".join([bin_and(*nums) for nums in zip(list_mask, list_ip)])
     return address
+
+
+def bin_and(first: int, second: int):
+    result = eval(bin(first & second))
+    return str(result)
 
 
 def create_addresses(input_file: str, mask: str):
@@ -16,7 +19,7 @@ def create_addresses(input_file: str, mask: str):
 def write_addresses(output_file: str, addresses: list):
     with open(output_file, "w") as file:
         for address in addresses:
-            file.write(address)
+            file.write(f"{address}\n")
 
 
 addresses = create_addresses("info.log", mask=input())

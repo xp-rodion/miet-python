@@ -2,7 +2,7 @@ import random
 
 
 def get_random_ipv4() -> str:
-    return f"{num()}.{num()}.{num()}.{num()}\n"
+    return ".".join([str(num()) for _ in range(4)])
 
 
 def num() -> int:
@@ -12,7 +12,7 @@ def num() -> int:
 def write_ipv4(file: str):
     with open(file, "w") as file:
         for _ in range(10000):
-            file.write(get_random_ipv4())
+            file.write(f"{get_random_ipv4()}\n")
 
 
 write_ipv4("info.log")
