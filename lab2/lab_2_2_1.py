@@ -5,18 +5,18 @@ def get_address_net(ip: str, mask: str) -> str:
     return address
 
 
-def bin_and(first: int, second: int):
+def bin_and(first: int, second: int) -> str:
     result = eval(bin(first & second))
     return str(result)
 
 
-def create_addresses(input_file: str, mask: str):
+def create_addresses(input_file: str, mask: str) -> list[str]:
     with open(input_file, "r") as file:
         lst_addresses = [get_address_net(ip, mask) for ip in file.readlines()]
         return lst_addresses
 
 
-def write_addresses(output_file: str, addresses: list):
+def write_addresses(output_file: str, addresses: list[str]):
     with open(output_file, "w") as file:
         for address in addresses:
             file.write(f"{address}\n")
