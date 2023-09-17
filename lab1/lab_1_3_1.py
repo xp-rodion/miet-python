@@ -12,7 +12,7 @@ def cinema_system(n_tickets: int) -> dict:
     return information_about_persons
 
 
-def create_output_data(information: dict):
+def create_output_data(information: dict) -> None:
     for key, value in information.items():
         print(*key, f"- {len(value)}")
 
