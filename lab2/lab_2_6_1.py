@@ -1,10 +1,10 @@
 def get_count_symbols(file: str) -> dict[[str, int]]:
-    symbs, kirill_letters = {}, "йцукенгшщзхъфывапролджэячсмитьбю"
+    symbs= {}
     with open(file, "r") as file:
         for line in file.readlines():
             for symbol in line:
                 symbol = symbol.lower()
-                if symbol not in kirill_letters:
+                if not "а" <= symbol <= "я":
                     continue
 
                 if symbol in symbs.keys():
