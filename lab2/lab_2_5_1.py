@@ -1,11 +1,11 @@
 import os
 
 
-def search_files(path_file: str, left: int, right: int) -> str:
+def search_files(path_file: str, user_str: str) -> str:
     files_count = len(
-        [0 for file in os.listdir(path_file) if (os.stat(f"{path_file}/{file}").st_size / 1024) in range(left, right + 1)]
+        [0 for file in os.listdir(path_file) if user_str in file]
     )
-    return f"Файлов находящихся в директории - {path_file}, в диапазоне [{left}; {right}] - {files_count} штук"
+    return f"Файлов находящихся в директории - {path_file}, имеющих подстроку - {user_str} -> {files_count}"
 
 
-print(search_files(input("Название директории: "), int(input("Левая граница: ")), int(input("Правая граница: "))))
+print(search_files("example", "0"))
