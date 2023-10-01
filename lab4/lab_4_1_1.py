@@ -1,35 +1,29 @@
-from book import Book
-from bottle import Bottle
+from car import Car
+from racecar import RaceCar
 
-
-bottle1 = Bottle(
-    volume=1.5,
-    price=300,
-    height=210,
-    width=200,
-    length=300,
+car = Car(
+    name="Test",
+    price=8_900_900,
+    volume=0,
+    max_volume=120,
+    max_speed=300
 )
 
-bottle2 = Bottle(
-    volume=1,
-    price=500,
-    height=105,
-    width=100,
-    length=200,
+print(car.max_speed)
+print(car.max_volume)
+print(car)
+
+
+racecar = RaceCar(
+    name="Test",
+    price=8_900_900,
+    volume=0,
+    max_volume=120,
+    max_speed=300,
+    team="Ferrari"
 )
 
-assert bottle1 + bottle2 == 2.5
-print(bottle1)
+for fuel in range(10):
+    racecar.refueling(fuel)
 
-book = Book(
-    name="Idiot",
-    price=1000,
-    height=125,
-    width=150,
-    length=300,
-)
-
-price_after_sale = book.computed_price_with_sale(25)
-assert price_after_sale == 750
-
-print(book.count_items_in_box(1000, 1200, 2000))
+print(*racecar.last_10_refuels(), sep="\n")
