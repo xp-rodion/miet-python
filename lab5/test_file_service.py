@@ -1,25 +1,38 @@
-import unittest
-from file_service import FileService
+import pytest
+from lab5.file_service import FileService
+from lab5.len_exception import LengthError
 
 
-class FileServiceTestCase(unittest.TestCase):
+class TestFileService:
 
-    def setUp(self) -> None:
-        self.file_service = FileService("test.txt")
-        with open("test.txt", "r") as file:
-            self.data = file.read()
+    @pytest.fixture(scope="class")
+    def data(self):
+        return b'privet, kak dela'
 
-    def test_read_file(self):
-        self.file_service.read_file()
-        assert self.file_service.storage == self.data
+    @pytest.fixture(scope="class")
+    def file(self, data):
+        f_name = "text.txt"
+        with open(f_name, "wb") as f:
+            f.write(data)
+        return f_name
 
-    def test_write_restored_data(self):
-        self.file_service.read_file()
-        output_file = "test_output.txt"
-        self.file_service.write_from_restored_data(output_file)
-        with open(output_file, "r") as file:
-            assert file.read() == self.file_service.storage
+    @pytest.fixture(scope="class")
+    def file_service(self, file):
+        return FileService(file=file)
 
+    def test_open_file(self, file_service, data):
+        file_service.read_file()
+        assert file_service.storage == data
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_file_not_found(self, file_service):
+        file_service.file = "aaa.txt"
+        file_service.read_file()
+
+    def test_file_length(self, file_service):
+        file_service.file = "bbb.txt"
+        file_service.read_file()
+
+    def test_write(self, file_service, data):
+        file_service.write_from_restored_data("text_output.txt")
+        with open("text_output.txt", "rb") as f:
+            assert data == f.read()

@@ -1,4 +1,4 @@
-from len_exception import LengthError
+from lab5.len_exception import LengthError
 
 
 class FileService:
@@ -9,24 +9,17 @@ class FileService:
 
     def read_file(self):
         try:
-            file = open(self.file, "r")
+            file = open(self.file, "rb")
             data = file.read()
-            self.validate_data(data)
             self.validate_length(data)
             self.storage = data
             file.close()
         except LengthError as e:
             print(f"Ошибка {e} - длина в данных файла некорректна")
-        except TypeError as e:
-            print(f"Ошибка {e} - в данных файла")
-        except Exception as e:
+        except FileNotFoundError as e:
+            print(f"Ошибка {e} - файл не найден")
+        except IOError as e:
             print(f"Ошибка {e} - в чтении файла")
-
-    @staticmethod
-    def validate_data(data):
-        if isinstance(data, str):
-            return data
-        raise TypeError("Тип данных некорректен")
 
     @staticmethod
     def validate_length(data):
@@ -36,11 +29,13 @@ class FileService:
 
     def write_from_restored_data(self, file: str):
         try:
-            output_file = open(file, "w")
-            output_file.write(self.storage)
+            output_file = open(file, "wb")
+            output_file.write(self.restored_data)
             output_file.close()
-        except Exception as e:
+        except IOError as e:
             print(f"Ошибка {e} - в записи файла ошибка")
+        except TypeError as e:
+            print(f"Ошибка {e} - тип данных некорректный")
 
     @property
     def restored_data(self):
